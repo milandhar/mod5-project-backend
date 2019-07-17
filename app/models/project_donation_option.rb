@@ -1,0 +1,2 @@
+class ProjectDonationOption < ApplicationRecord
+end

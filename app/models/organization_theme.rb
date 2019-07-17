@@ -1,0 +1,2 @@
+class OrganizationTheme < ApplicationRecord
+end

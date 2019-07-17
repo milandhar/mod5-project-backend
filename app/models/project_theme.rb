@@ -1,0 +1,2 @@
+class ProjectTheme < ApplicationRecord
+end
