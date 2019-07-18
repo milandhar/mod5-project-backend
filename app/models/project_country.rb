@@ -1,0 +1,2 @@
+class ProjectCountry < ApplicationRecord
+end
