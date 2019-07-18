@@ -5,13 +5,13 @@ class CreateProjects < ActiveRecord::Migration[5.2]
       t.float :goal
       t.string :image_url
       t.float :latitude
-      t.string :longitude
-      t.string :float
+      t.float :longitude
       t.text :long_term_impact
       t.text :need
-      t.string :organization_id
+      t.integer :gg_organization_id
       t.string :status
-      t.string :theme_name
+      t.string :summary
+      t.string :theme_str_id
       t.string :title
 
       t.timestamps
