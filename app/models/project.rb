@@ -1,10 +1,14 @@
 class Project < ApplicationRecord
   belongs_to :organization
-  has_many :project_countries
-  has_many :countries, through: :project_countries
+  belongs_to :themes
+  belongs_to :countries
   has_many :project_donation_options
   has_many :user_starred_projects
   has_many :users, through: :user_starred_projects
-  has_many :project_themes
-  has_many :themes, through: :project_themes
+
+  def self.queryActiveProjects
+    url = "https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=4be97db5-e712-49b1-bae9-12c85422ce7a"
+    json = JSON.parse(RestClient.get url, {content_type: :json, accept: :json})
+  end
+
 end
