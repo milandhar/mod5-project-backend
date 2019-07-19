@@ -25,6 +25,7 @@ class Api::V1::ProjectsController < ApplicationController
               project["organization"]["themes"] &&
               project["organization"]["countries"])
         @project = Project.find_or_create_by(
+          country: project["country"],
           funding: project["funding"],
           goal: project["goal"],
           image_url: project["imageLink"],
@@ -39,6 +40,7 @@ class Api::V1::ProjectsController < ApplicationController
           title: project["title"]
         )
 
+
         #need to add create methods to controllers?
 
         if (!Organization.find_by(Gg_organization_id: project["organization"]["id"]))
@@ -52,23 +54,33 @@ class Api::V1::ProjectsController < ApplicationController
             url: project["organization"]["url"]
           )
 
-          project["organization"]["themes"]["theme"].each do |theme|
-            @theme = Theme.find_or_create_by(theme_str_id: theme["id"], name: theme["name"])
-            @organization.themes << @theme
-          end
 
+          @theme = Theme.find_or_create_by(name: project["themeName"])
+          @organization.themes << @theme
 
-          project["organization"]["countries"]["country"].each do |country|
-            @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(country["iso3166CountryCode"]))
-            @organization.countries << @country
-          end
-          @organization.save
+          # project["organization"]["themes"]["theme"].each do |theme|
+          #   @theme = Theme.find_or_create_by(theme_str_id: theme["id"], name: theme["name"])
+          #   #This is adding a blank row to the project table, thinking it's the join table
+          #   #Just add the theme of this project!
+          #   @organization.themes << @theme
+          #   byebug
+          # end
+
+          @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(project["country"]))
+
+          # project["organization"]["countries"]["country"].each do |country|
+          #   @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(country["iso3166CountryCode"]))
+          #   @organization.countries << @country
+          # end
           @organization.projects << @project
+          @organization.save
+
         end
-        @project.save
         @projects << @project
+        @project.save
+
       end
     end
   end
-  render json: @pets
+  render json: @projects
 end
