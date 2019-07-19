@@ -25,7 +25,7 @@ class Api::V1::ProjectsController < ApplicationController
               project["organization"]["themes"] &&
               project["organization"]["countries"])
         @project = Project.find_or_create_by(
-          country: project["country"],
+          # country: project["country"],
           funding: project["funding"],
           goal: project["goal"],
           image_url: project["imageLink"],
@@ -56,7 +56,8 @@ class Api::V1::ProjectsController < ApplicationController
 
 
           @theme = Theme.find_or_create_by(name: project["themeName"])
-          @organization.themes << @theme
+          # @organization.themes << @theme
+          @project.theme = @theme
 
           # project["organization"]["themes"]["theme"].each do |theme|
           #   @theme = Theme.find_or_create_by(theme_str_id: theme["id"], name: theme["name"])
@@ -66,14 +67,18 @@ class Api::V1::ProjectsController < ApplicationController
           #   byebug
           # end
 
-          @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(project["country"]))
+          @country = Country.find_by(name: project["country"])
+          @project.country = @country
 
           # project["organization"]["countries"]["country"].each do |country|
           #   @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(country["iso3166CountryCode"]))
           #   @organization.countries << @country
           # end
-          @organization.projects << @project
+          # @organization.projects << @project
+          @project.organization = @organization
           @organization.save
+          @country.save
+          @theme.save
 
         end
         @projects << @project
