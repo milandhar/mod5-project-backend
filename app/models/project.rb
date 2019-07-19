@@ -1,7 +1,7 @@
 class Project < ApplicationRecord
   belongs_to :organization
-  belongs_to :themes
-  belongs_to :countries
+  belongs_to :theme
+  belongs_to :country
   has_many :project_donation_options
   has_many :user_starred_projects
   has_many :users, through: :user_starred_projects

@@ -11,8 +11,6 @@ class Api::V1::ProjectsController < ApplicationController
     json = Project.queryActiveProjects
     byebug
     json.first[1]["project"].each do |project|
-      @organization_countries = []
-      @organization_themes = []
       if(project["organization"] &&
               project(["organization"]["themes"]) &&
               project(["organization"]["countries"]) &&)
@@ -32,22 +30,28 @@ class Api::V1::ProjectsController < ApplicationController
           title: project["title"]
         )
 
-        #create organization here
-        @organization = Organization.find_or_create_by(
-          Gg_organization_id: project["organization"]["id"],
-          
-        )
 
-        @project["organization"]["themes"].each do |theme|
-          @theme = Theme.find_or_create_by(theme_str_id: theme.id, name: theme.name)
-          @organization_themes << @theme
+        if (!Organization.find_by(Gg_organization_id: project["organization"]["id"])
+          #find or create organization here
+          @organization = Organization.find_or_create_by(
+            Gg_organization_id: project["organization"]["id"],
+            city: project["organization"]["city"],
+            country: project["organization"]["country"],
+            mission: project["organization"]["mission"],
+            name: project["organization"]["name"],
+            url: project["organization"]["url"]
+          )
+
+          @project["organization"]["themes"].each do |theme|
+            @theme = Theme.find_or_create_by(theme_str_id: theme.id, name: theme.name)
+            @organization.themes << @theme
+          end
+
+          @project["organization"]["countries"].each do |country|
+            @country = Country.find_by(iso3166CountryCode: country.iso3166CountryCode)
+            @organization.countries << @country
+          end
         end
-
-        @project["organization"]["countries"].each do |country|
-          @country = Country.find_by(iso3166CountryCode: country.iso3166CountryCode)
-          @organization_countries << @country
-        end
-
       end
     end
   end
