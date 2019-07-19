@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_18_001220) do
+ActiveRecord::Schema.define(version: 2019_07_19_004805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,43 +23,23 @@ ActiveRecord::Schema.define(version: 2019_07_18_001220) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "organization_themes", force: :cascade do |t|
-    t.string "theme_str_id"
-    t.integer "gg_organization_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "organizations", force: :cascade do |t|
     t.integer "Gg_organization_id"
-    t.integer "active_projects"
     t.string "city"
     t.string "country"
     t.text "mission"
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "project_countries", force: :cascade do |t|
-    t.integer "project_id"
+    t.string "name"
     t.integer "country_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "theme_id"
   end
 
   create_table "project_donation_options", force: :cascade do |t|
     t.integer "project_id"
     t.integer "amount"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "project_themes", force: :cascade do |t|
-    t.string "theme_str_id"
-    t.string "name"
-    t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -79,6 +59,9 @@ ActiveRecord::Schema.define(version: 2019_07_18_001220) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "country_id"
+    t.integer "organization_id"
+    t.integer "theme_id"
   end
 
   create_table "themes", force: :cascade do |t|
