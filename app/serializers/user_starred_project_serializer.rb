@@ -1,3 +1,3 @@
 class UserStarredProjectSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :user_id, :project_id
 end
