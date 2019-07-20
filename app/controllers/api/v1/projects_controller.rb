@@ -9,14 +9,13 @@ class Api::V1::ProjectsController < ApplicationController
 
   def fetch
     #Need to pass in param of nextID into queryActiveProjects
-    byebug
     @projects = []
-    json = Project.queryActiveProjects
+    json = Project.queryActiveProjects(params)
 
     NormalizeCountry.to = :alpha3
 
-    Project.delete_all
-    Organization.delete_all
+    # Project.delete_all
+    # Organization.delete_all
     json.first[1]["project"].each do |project|
       if(project["organization"] &&
               project["organization"]["themes"] &&
@@ -92,6 +91,6 @@ class Api::V1::ProjectsController < ApplicationController
         end
       end
     end
-    render json: {"has_next": json["projects"]["hasNext"], "projects": @projects}
+    render json: {"has_next": json["projects"]["hasNext"], "nextProjectId": json["projects"]["nextProjectId"], "projects": @projects}
   end
 end
