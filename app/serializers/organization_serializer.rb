@@ -1,3 +1,4 @@
 class OrganizationSerializer < ActiveModel::Serializer
-  attributes :id, :name, :mission, :url, :countries, :projects
+  # with joins attributes :id, :name, :mission, :url, :countries, :projects
+  attributes :id, :name, :mission, :url
 end

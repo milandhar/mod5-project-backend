@@ -7,11 +7,15 @@ class Api::V1::ProjectsController < ApplicationController
   end
 
 
+  def find_last_project
+    max_id = Project.where(status: "active").maximum('gg_project_id')
+    render json: max_id
+  end
+
   def fetch
     #Need to pass in param of nextID into queryActiveProjects
     @projects = []
     json = Project.queryActiveProjects(params)
-
     NormalizeCountry.to = :alpha3
 
     # Project.delete_all
@@ -30,6 +34,7 @@ class Api::V1::ProjectsController < ApplicationController
           long_term_impact: project["longTermImpact"],
           need: project["need"],
           gg_organization_id: project["organization"]["id"],
+          gg_project_id: project["id"],
           status: project["status"],
           summary: project["summary"],
           theme_str_id: project["themeName"],
