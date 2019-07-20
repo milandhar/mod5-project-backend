@@ -60,22 +60,11 @@ class Api::V1::ProjectsController < ApplicationController
           # @organization.themes << @theme
           @project.theme = @theme
 
-          # project["organization"]["themes"]["theme"].each do |theme|
-          #   @theme = Theme.find_or_create_by(theme_str_id: theme["id"], name: theme["name"])
-          #   #This is adding a blank row to the project table, thinking it's the join table
-          #   #Just add the theme of this project!
-          #   @organization.themes << @theme
-          #   byebug
-          # end
 
           @country = Country.find_by(name: project["country"])
           @project.country = @country
 
-          # project["organization"]["countries"]["country"].each do |country|
-          #   @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(country["iso3166CountryCode"]))
-          #   @organization.countries << @country
-          # end
-          # @organization.projects << @project
+
           @project.organization = @organization
           @organization.save
           @country.save
