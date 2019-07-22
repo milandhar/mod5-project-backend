@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post '/fetch_projects', to: 'projects#fetch'
       get '/get_project_count', to: 'countries#get_project_count'
       get '/find_last_project', to: 'projects#find_last_project'
+      get '/get_projects', to: 'countries#get_projects'
     end
   end
 end
