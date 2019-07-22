@@ -6,6 +6,19 @@ class Api::V1::CountriesController < ApplicationController
     render json: @countries
   end
 
+  def get_project_count
+    @countries = Country.all
+    country_projects = []
+
+    @countries.each do |country|
+      project_count = country.projects.count
+      country_projects.push([country[:iso3166CountryCode], project_count])
+    end
+
+    render json: country_projects
+
+  end
+
   def create
     Country.destroy_all
     json = Country.queryAllCountries

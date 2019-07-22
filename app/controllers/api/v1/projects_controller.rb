@@ -7,15 +7,19 @@ class Api::V1::ProjectsController < ApplicationController
   end
 
 
-  def fetch
-    @projects = []
-    json = Project.queryActiveProjects
+  def find_last_project
+    max_id = Project.where(status: "active").maximum('gg_project_id')
+    render json: max_id
+  end
 
+  def fetch
+    #Need to pass in param of nextID into queryActiveProjects
+    @projects = []
+    json = Project.queryActiveProjects(params)
     NormalizeCountry.to = :alpha3
 
-    Project.delete_all
-    Organization.delete_all
-
+    # Project.delete_all
+    # Organization.delete_all
     json.first[1]["project"].each do |project|
       if(project["organization"] &&
               project["organization"]["themes"] &&
@@ -30,6 +34,7 @@ class Api::V1::ProjectsController < ApplicationController
           long_term_impact: project["longTermImpact"],
           need: project["need"],
           gg_organization_id: project["organization"]["id"],
+          gg_project_id: project["id"],
           status: project["status"],
           summary: project["summary"],
           theme_str_id: project["themeName"],
@@ -55,22 +60,11 @@ class Api::V1::ProjectsController < ApplicationController
           # @organization.themes << @theme
           @project.theme = @theme
 
-          # project["organization"]["themes"]["theme"].each do |theme|
-          #   @theme = Theme.find_or_create_by(theme_str_id: theme["id"], name: theme["name"])
-          #   #This is adding a blank row to the project table, thinking it's the join table
-          #   #Just add the theme of this project!
-          #   @organization.themes << @theme
-          #   byebug
-          # end
 
           @country = Country.find_by(name: project["country"])
           @project.country = @country
 
-          # project["organization"]["countries"]["country"].each do |country|
-          #   @country = Country.find_or_create_by(iso3166CountryCode: NormalizeCountry.convert(country["iso3166CountryCode"]))
-          #   @organization.countries << @country
-          # end
-          # @organization.projects << @project
+
           @project.organization = @organization
           @organization.save
           @country.save
@@ -87,11 +81,10 @@ class Api::V1::ProjectsController < ApplicationController
               amount: option["amount"],
               description: option["description"]
             )
-
           end
         end
       end
     end
+    render json: {"has_next": json["projects"]["hasNext"], "nextProjectId": json["projects"]["nextProjectId"], "projects": @projects}
   end
-  render json: @projects
 end
