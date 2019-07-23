@@ -18,7 +18,6 @@ class Api::V1::CountriesController < ApplicationController
 
   def get_projects
     country = Country.find_by(iso3166CountryCode: params["countryCode"])
-    byebug
     country_projects = country.projects
     render json: country_projects
   end
