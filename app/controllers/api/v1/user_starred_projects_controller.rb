@@ -18,7 +18,7 @@ class Api::V1::UserStarredProjectsController < ApplicationController
   private
 
   def user_star_params
-    params.permit(:projectId, :userId)
+    params.permit(:project_id, :user_id)
   end
 
 end

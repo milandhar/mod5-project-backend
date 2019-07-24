@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get '/get_project_count', to: 'countries#get_project_count'
       get '/find_last_project', to: 'projects#find_last_project'
       get '/get_projects', to: 'countries#get_projects'
+      get '/check_star', to: 'users#check_star'
     end
   end
 end
