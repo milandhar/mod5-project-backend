@@ -22,6 +22,12 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def get_projects
+    @user = User.find(params["user_id"])
+    user_projects = @user.projects
+    render json: user_projects
+  end
+
   def check_star
     starred = false
     project_id = params[:project_id].to_i
