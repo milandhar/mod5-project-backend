@@ -41,9 +41,6 @@ class Api::V1::ProjectsController < ApplicationController
           title: project["title"]
         )
 
-
-        #need to add create methods to controllers?
-
         if (!Organization.find_by(Gg_organization_id: project["organization"]["id"]))
           #find or create organization here
           @organization = Organization.find_or_create_by(
