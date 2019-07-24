@@ -23,7 +23,6 @@ class Api::V1::CountriesController < ApplicationController
   end
 
   def create
-    Country.destroy_all
     json = Country.queryAllCountries
     NormalizeCountry.to = :alpha3
 

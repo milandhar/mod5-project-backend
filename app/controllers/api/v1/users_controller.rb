@@ -22,6 +22,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+
   def update
     @user = User.find(user_params[:id])
     if @user.update(user_params)
