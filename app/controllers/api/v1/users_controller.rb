@@ -22,6 +22,31 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def get_projects
+    @user = User.find(params["user_id"])
+    user_projects = @user.projects
+    render json: user_projects
+  end
+
+  def check_star
+    starred = false
+    project_id = params[:project_id].to_i
+    @user = User.find(params[:user_id])
+    @user_projects = @user.projects
+    @user_projects.each do |project|
+      if project[:id] == project_id
+        starred = true
+      end
+    end
+
+    if starred
+      render json: {status: 'Star'}
+    else
+      render json: {status: 'None'}
+    end
+  end
+
+
   def update
     @user = User.find(user_params[:id])
     if @user.update(user_params)
