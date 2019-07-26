@@ -10,7 +10,20 @@ class Api::V1::CountriesController < ApplicationController
     @countries = Country.all
     country_project_counts = []
     @countries.each do |country|
+      byebug
       project_count = country.projects.count
+      country_project_counts.push([country[:iso3166CountryCode], project_count])
+    end
+    render json: country_project_counts
+  end
+
+  def get_project_theme_count
+    @countries = Country.all
+    theme_array = params[:themes]
+    country_project_counts = []
+    @countries.each do |country|
+      byebug
+      project_count = country.projects.where(theme_id: theme_array)
       country_project_counts.push([country[:iso3166CountryCode], project_count])
     end
     render json: country_project_counts
