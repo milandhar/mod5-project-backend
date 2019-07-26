@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       get '/get_projects', to: 'countries#get_projects'
       post '/check_star', to: 'users#check_star'
       post '/get_user_projects', to: 'users#get_projects'
+      post '/get_theme_projects', to: 'countries#get_theme_projects'
     end
   end
 end
