@@ -22,6 +22,20 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def remove_project
+    user_id = params[:user_id]
+    project_id = params[:project_id]
+
+    @user_project = UserStarredProject.find_by(user_id: user_id, project_id: project_id)
+
+    if @user_project.delete
+      render json: {message: 'Removed Project' }, status: :accepted
+    else
+      render json: {error: 'Could Not Remove Project' }, status: :not_acceptable
+    end
+
+  end
+
   def get_projects
     @user = User.find(params["user_id"])
     user_projects = @user.projects

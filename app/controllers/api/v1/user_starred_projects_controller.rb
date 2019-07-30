@@ -10,9 +10,10 @@ class Api::V1::UserStarredProjectsController < ApplicationController
     if @userStar.save
       render json: @userStar, status: :created
     else
-      ender json: {error: 'failed to create user star' }, status: :not_acceptable
+      render json: {error: 'failed to create user star' }, status: :not_acceptable
     end
   end
+
 
 
   private

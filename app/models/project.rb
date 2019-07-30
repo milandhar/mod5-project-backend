@@ -14,5 +14,4 @@ class Project < ApplicationRecord
     end
     json = JSON.parse(RestClient.get url, {content_type: :json, accept: :json})
   end
-
 end
