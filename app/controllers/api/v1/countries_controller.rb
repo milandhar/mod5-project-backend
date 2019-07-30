@@ -58,7 +58,6 @@ class Api::V1::CountriesController < ApplicationController
   def create
     json = Country.queryAllCountries
     NormalizeCountry.to = :alpha3
-
     json["regions"]["region"].each do |region|
       region["countries"]["country"].each do |country|
         @country = Country.find_or_create_by(name: country["name"], iso3166CountryCode: NormalizeCountry.convert(country["iso3166CountryCode"]))
