@@ -75,7 +75,6 @@ class Api::V1::ProjectsController < ApplicationController
         @country.save
         @project.country = @country
         @project.save
-        byebug
         @projects << @project
 
         if project["donationOptions"]
