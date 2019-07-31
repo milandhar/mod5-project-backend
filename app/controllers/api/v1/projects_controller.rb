@@ -12,6 +12,14 @@ class Api::V1::ProjectsController < ApplicationController
     render json: max_id
   end
 
+  def delete_all
+    #Delete all projects, user_starred_projects and donation options
+    Project.delete_all
+    ProjectDonationOption.delete_all
+    UserStarredProject.delete_all
+    render json: { message: 'Deleted all projects, donation options, and starred projects' }, status: :accepted
+  end
+
   def fetch
     #Need to pass in param of nextID into queryActiveProjects
     @projects = []
@@ -24,6 +32,7 @@ class Api::V1::ProjectsController < ApplicationController
       if(project["organization"] &&
               project["organization"]["themes"] &&
               project["organization"]["countries"])
+
         @project = Project.find_or_create_by(
           # country: project["country"],
           funding: project["funding"],
@@ -32,9 +41,11 @@ class Api::V1::ProjectsController < ApplicationController
           latitude: project["latitude"],
           longitude: project["longitude"],
           long_term_impact: project["longTermImpact"],
+          activities: project["activities"],
           need: project["need"],
           gg_organization_id: project["organization"]["id"],
           gg_project_id: project["id"],
+          project_link: project["projectLink"],
           status: project["status"],
           summary: project["summary"],
           theme_str_id: project["themeName"],
@@ -43,7 +54,7 @@ class Api::V1::ProjectsController < ApplicationController
 
         if (!Organization.find_by(Gg_organization_id: project["organization"]["id"]))
           #find or create organization here
-          @organization = Organization.find_or_create_by(
+          @organization = Organization.create(
             Gg_organization_id: project["organization"]["id"],
             city: project["organization"]["city"],
             country: project["organization"]["country"],
@@ -51,24 +62,20 @@ class Api::V1::ProjectsController < ApplicationController
             name: project["organization"]["name"],
             url: project["organization"]["url"]
           )
-
-
-          @theme = Theme.find_or_create_by(name: project["themeName"])
-          # @organization.themes << @theme
-          @project.theme = @theme
-
-
-          @country = Country.find_by(name: project["country"])
-          @project.country = @country
-
-
           @project.organization = @organization
           @organization.save
-          @country.save
-          @theme.save
-
+        else
+          @organization = Organization.find_by(Gg_organization_id: project["organization"]["id"])
+          @project.organization = @organization
         end
+        @theme = Theme.find_or_create_by(name: project["themeName"])
+        @theme.save
+        @project.theme = @theme
+        @country = Country.find_by(name: project["country"])
+        @country.save
+        @project.country = @country
         @project.save
+        byebug
         @projects << @project
 
         if project["donationOptions"]
