@@ -1,9 +1,12 @@
+require 'dotenv/load'
+
 class ApplicationController < ActionController::API
   # before_action :authorized
 
   def encode_token(payload)
     # don't forget to hide your secret in an environment variable
-    JWT.encode(payload, 'my_s3cre3t')
+    secret = ENV['SECRET']
+    JWT.encode(payload, secret)
   end
 
   def auth_header
@@ -11,11 +14,12 @@ class ApplicationController < ActionController::API
   end
 
   def decoded_token
+    secret = ENV['SECRET']
     if auth_header
       token = auth_header.split(' ')[1]
         # headers: { 'Authorization': 'Bearer <token>' }
       begin
-        JWT.decode(token, 'my_s3cre3t', true, algorithm: 'HS256')
+        JWT.decode(token, secret, true, algorithm: 'HS256')
         # JWT.decode => [{ "beef"=>"steak" }, { "alg"=>"HS256" }]
       rescue JWT::DecodeError
         nil
