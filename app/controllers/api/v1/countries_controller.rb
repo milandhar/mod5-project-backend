@@ -39,7 +39,11 @@ class Api::V1::CountriesController < ApplicationController
 
   def get_theme_ids(theme_name_array)
     theme_array = theme_name_array.map do |theme|
-      Theme.find_by(name: theme).id
+      if theme["name"]
+        Theme.find_by(name: theme["name"]).id
+      else
+        Theme.find_by(name: theme).id
+      end
     end
     theme_array
   end
