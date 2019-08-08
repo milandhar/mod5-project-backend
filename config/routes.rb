@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       post '/get_project_theme_count', to: 'countries#get_project_theme_count'
       get '/find_last_project', to: 'projects#find_last_project'
       get '/get_projects', to: 'countries#get_projects'
+      get '/delete_all', to: 'projects#delete_all'
       post '/check_star', to: 'users#check_star'
       post '/get_user_projects', to: 'users#get_projects'
       post '/get_theme_projects', to: 'countries#get_theme_projects'

@@ -21,6 +21,7 @@ class Api::V1::UsersController < ApplicationController
       render json: {error: 'failed to create user' }, status: :not_acceptable
     end
   end
+  
 
   def remove_project
     user_id = params[:user_id]
@@ -75,7 +76,7 @@ class Api::V1::UsersController < ApplicationController
 
   def user_params
     params.permit(:id, :username, :password, :first_name, :last_name,
-      :email_address, :theme1, :theme2, :theme3)
+      :email_address, :default_country, :theme1, :theme2, :theme3)
   end
 
 end
