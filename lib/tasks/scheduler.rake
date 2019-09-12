@@ -7,6 +7,7 @@ task :fetch_projects => :environment do
   ProjectDonationOption.delete_all
   UserStarredProject.delete_all
   puts "done."
+  byebug
   puts "Fetching Projects..."
   Project.fetch(nextProject: false)
   puts "done."

@@ -88,6 +88,7 @@ class Project < ApplicationRecord
 
     if json["projects"]["hasNext"]
       params[:nextProject] = json["projects"]["nextProjectId"]
+      puts json["projects"]["nextProjectId"]
       self.fetch(params)
     end
     # render json: {"has_next": json["projects"]["hasNext"], "nextProjectId": json["projects"]["nextProjectId"], "projects": @projects}
