@@ -8,7 +8,9 @@ end
 
 task :fetch_projects => :environment do
   puts "Fetching Projects..."
-  app = ActionDispatch::Integration::Session.new(Rails.application)
-  app.get "/fetch_projects"
+  # app = ActionDispatch::Integration::Session.new(Rails.application)
+  # byebug
+  # app.post "/fetch_projects"
+  Project.fetch(nextProject: false)
   puts "done."
 end
