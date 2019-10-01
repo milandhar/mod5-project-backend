@@ -77,16 +77,15 @@ class Api::V1::ProjectsController < ApplicationController
         @project.save
         @projects << @project
 
-        # if project["donationOptions"]
-        #   project["donationOptions"]["donationOption"].each do |option|
-        #     ProjectDonationOption.find_or_create_by(
-        #       project_id: @project.id,
-        #       amount: option["amount"],
-        #       description: option["description"]
-        #     )
-        #   end
-        #
-        # end
+        if project["donationOptions"]
+          project["donationOptions"]["donationOption"].each do |option|
+          #   ProjectDonationOption.find_or_create_by(
+          #     project_id: @project.id,
+          #     amount: option["amount"],
+          #     description: option["description"]
+            # )
+          end
+        end
       end
     end
     render json: {"has_next": json["projects"]["hasNext"], "nextProjectId": json["projects"]["nextProjectId"], "projects": @projects}

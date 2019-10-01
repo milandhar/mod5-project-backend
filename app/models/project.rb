@@ -49,6 +49,17 @@ class Project < ApplicationRecord
           title: project["title"]
         )
 
+
+        # add donation options to @project
+        if project["donationOptions"]
+          project["donationOptions"]["donationOption"].each do |option|
+            if option["description"] && option["amount"]
+              @project.donation_descriptions.push(option["description"])
+              @project.donation_amounts.push(option["amount"])
+            end
+          end
+        end
+
         if (!Organization.find_by(Gg_organization_id: project["organization"]["id"]))
           #find or create organization here
           @organization = Organization.create(
@@ -74,15 +85,6 @@ class Project < ApplicationRecord
         @project.save
         @projects << @project
 
-        if project["donationOptions"]
-          project["donationOptions"]["donationOption"].each do |option|
-            # ProjectDonationOption.find_or_create_by(
-            #   project_id: @project.id,
-            #   amount: option["amount"],
-            #   description: option["description"]
-            # )
-          end
-        end
       end
     end
 
