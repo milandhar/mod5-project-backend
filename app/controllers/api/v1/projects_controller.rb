@@ -20,6 +20,13 @@ class Api::V1::ProjectsController < ApplicationController
     render json: { message: 'Deleted all projects, donation options, and starred projects' }, status: :accepted
   end
 
+  def find_options
+    project_id = params[:project_id]
+    @options_obj = Hash.new
+    @donationOptions = ProjectDonationOption.where(project_id: project_id)
+    render json: @donationOptions
+  end
+
   def fetch
     #Need to pass in param of nextID into queryActiveProjects
     @projects = []
