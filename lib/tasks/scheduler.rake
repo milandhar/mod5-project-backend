@@ -16,6 +16,6 @@ task :fetch_countries => :environment do
   puts "Deleting Countries..."
   Country.delete_all
   puts "Fetching Countries... "
-  Country.queryAllCountries
+  Country.create_all
   puts "done."
 end
