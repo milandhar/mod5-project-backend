@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_200108) do
+ActiveRecord::Schema.define(version: 2019_10_01_225803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 2019_07_31_200108) do
     t.integer "gg_project_id"
     t.string "project_link"
     t.text "activities"
+    t.integer "donation_amounts", default: [], array: true
+    t.text "donation_descriptions", default: [], array: true
   end
 
   create_table "themes", force: :cascade do |t|
