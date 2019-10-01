@@ -11,3 +11,11 @@ task :fetch_projects => :environment do
   Project.fetch(nextProject: false)
   puts "done."
 end
+
+task :fetch_countries => :environment do
+  puts "Deleting Countries..."
+  Country.delete_all
+  puts "Fetching Countries... "
+  Country.queryAllCountries
+  puts "done."
+end
