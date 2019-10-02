@@ -27,6 +27,7 @@ class Api::V1::ProjectsController < ApplicationController
     @project.donation_amounts.length.times do |i|
       @options_arr.push({"amount": @project.donation_amounts[i], "description": @project.donation_descriptions[i]})
     end
+    byebug
     # @donationOptions = ProjectDonationOption.where(project_id: project_id)
     render json: @options_arr
   end
