@@ -11,9 +11,9 @@ class Project < ApplicationRecord
   def self.queryActiveProjects(params)
     api_key = ENV['API_KEY']
     if params[:nextProject]
-      url = "https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=#{api_key}&nextProjectId=#{params[:nextProject]}"
+      url = "https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=#{api_key}&nextProjectId=#{params[:nextProject]}&status=active"
     else
-      url = "https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=#{api_key}"
+      url = "https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=#{api_key}&status=active"
     end
     json = JSON.parse(RestClient.get url, {content_type: :json, accept: :json})
   end
