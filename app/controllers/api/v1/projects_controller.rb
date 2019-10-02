@@ -22,9 +22,13 @@ class Api::V1::ProjectsController < ApplicationController
 
   def find_options
     project_id = params[:project_id]
-    @options_obj = Hash.new
-    @donationOptions = ProjectDonationOption.where(project_id: project_id)
-    render json: @donationOptions
+    @options_arr = []
+    @project = Project.find(project_id)
+    @project.donation_amounts.length.times do |i|
+      @options_arr.push({"amount": @project.donation_amounts[i], "description": @project.donation_descriptions[i]})
+    end
+    # @donationOptions = ProjectDonationOption.where(project_id: project_id)
+    render json: @options_arr
   end
 
   def fetch
