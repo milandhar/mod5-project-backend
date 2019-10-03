@@ -20,18 +20,17 @@ class Project < ApplicationRecord
 
 
   def self.fetch(params)
+    #Add a check to see if Project count < 7000. Added bc of Heroku 10k row limit
+    if Project.all.count < 7000
     @projects = []
     json = self.queryActiveProjects(params)
     NormalizeCountry.to = :alpha3
-    # Project.delete_all
-    # Organization.delete_all
     json.first[1]["project"].each do |project|
       if(project["organization"] &&
               project["organization"]["themes"] &&
               project["organization"]["countries"])
 
         @project = Project.find_or_create_by(
-          # country: project["country"],
           funding: project["funding"],
           goal: project["goal"],
           image_url: project["imageLink"],
@@ -48,7 +47,6 @@ class Project < ApplicationRecord
           theme_str_id: project["themeName"],
           title: project["title"]
         )
-
 
         # add donation options to @project
         if project["donationOptions"]
@@ -84,10 +82,8 @@ class Project < ApplicationRecord
         @project.country = @country
         @project.save
         @projects << @project
-
       end
     end
-
     if json["projects"]["hasNext"]
       params[:nextProject] = json["projects"]["nextProjectId"]
       puts json["projects"]["nextProjectId"]
@@ -95,5 +91,5 @@ class Project < ApplicationRecord
     end
     # render json: {"has_next": json["projects"]["hasNext"], "nextProjectId": json["projects"]["nextProjectId"], "projects": @projects}
   end
-
+end
 end
