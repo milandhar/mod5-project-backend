@@ -18,10 +18,10 @@ class Api::V1::UsersController < ApplicationController
       @token = encode_token(user_id: @user.id)
       render json: { user:   UserSerializer.new(@user), jwt: @token }, status: :created
     else
-      render json: {error: 'failed to create user' }, status: :not_acceptable
+      render json: {error: 'failed to create user. please try another username' }, status: :not_acceptable
     end
   end
-  
+
 
   def remove_project
     user_id = params[:user_id]
