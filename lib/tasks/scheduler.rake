@@ -1,7 +1,5 @@
+desc "This task is called by the Heroku scheduler add-on"
 task :fetch_projects => :environment do
-  # app = ActionDispatch::Integration::Session.new(Rails.application)
-  # byebug
-  # app.post "/fetch_projects"
   puts "Deleting Tables..."
   Project.delete_all
   ProjectDonationOption.delete_all
