@@ -6,6 +6,8 @@ class Project < ApplicationRecord
   belongs_to :country, optional: true
   has_many :user_starred_projects
   has_many :users, through: :user_starred_projects
+  validates :title, presence: true
+
 
   def self.queryActiveProjects(params)
     api_key = ENV['API_KEY']
