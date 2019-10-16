@@ -8,6 +8,8 @@ class Project < ApplicationRecord
   has_many :users, through: :user_starred_projects
   validates :title, presence: true
   validates :image_url, presence: true
+  validates :project_link, presence: true
+  validates :theme_str_id, presence: true
 
 
   def self.queryActiveProjects(params)
