@@ -40,7 +40,11 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
     test "should return a json of projects that has a next project ID" do
-      assert Project.queryActiveProjects(nextProject:nil)["projects"]["hasNext"]
+      assert Project.queryActiveProjects(nextProject:nil)["projects"]["nextProjectId"]
+    end
+
+    test "should return a json of projects whose first project has an ID" do
+      assert Project.queryActiveProjects(nextProject:nil)["projects"]["project"].first["id"]
     end
 
   # test "should report error" do
