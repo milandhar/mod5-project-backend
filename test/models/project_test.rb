@@ -3,7 +3,7 @@ require 'test_helper'
 class ProjectTest < ActiveSupport::TestCase
   test "should not save a project without a title" do
     project = Project.new
-    project.image_url = "www.google.com"
+    project.image_url = "https://files.globalgiving.org/pfil/34796/pict_large.jpg?m=1534281939000"
     project.theme_str_id = "env"
     project.project_link = "https://www.globalgiving.org/projects/nourish-a-young-brain-protect-one-ancient-culture/"
     assert_not project.save, "Saved the project without a title"

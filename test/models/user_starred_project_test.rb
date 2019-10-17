@@ -4,7 +4,7 @@ class UserStarredProjectTest < ActiveSupport::TestCase
   test "should prevent a user from starring multiple projects" do
     user1 = User.create(username: "barryobama10", password: "bo")
     project1 = Project.new
-    project1.title = "Save Lives"
+    project1.title = "Nourish a young brain, protect one ancient culture"
     project1.theme_str_id = "env"
     project1.image_url = "www.google.com/img"
     project1.project_link = "https://www.globalgiving.org/projects/nourish-a-young-brain-protect-one-ancient-culture/"
