@@ -14,7 +14,7 @@ class ProjectTest < ActiveSupport::TestCase
     project.title = "Save Lives"
     project.theme_str_id = "env"
     project.project_link = "https://www.globalgiving.org/projects/nourish-a-young-brain-protect-one-ancient-culture/"
-    assert_not project.save, "Saved the project without a title"
+    assert_not project.save, "Saved the project without an image url"
   end
 
   test "should not save a project without a project link" do
@@ -22,7 +22,7 @@ class ProjectTest < ActiveSupport::TestCase
     project.title = "Save Lives"
     project.theme_str_id = "env"
     project.image_url = "www.google.com"
-    assert_not project.save, "Saved the project without a title"
+    assert_not project.save, "Saved the project without a project link"
   end
 
   test "should not save a project without a theme id" do
@@ -30,7 +30,7 @@ class ProjectTest < ActiveSupport::TestCase
     project.title = "Save Lives"
     project.project_link = "https://www.globalgiving.org/projects/nourish-a-young-brain-protect-one-ancient-culture/"
     project.image_url = "www.google.com"
-    assert_not project.save, "Saved the project without a title"
+    assert_not project.save, "Saved the project without a theme id"
   end
 
   test "should query the active projects API endpoint without error" do
