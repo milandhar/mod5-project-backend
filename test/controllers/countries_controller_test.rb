@@ -1,12 +1,9 @@
 require 'test_helper'
 
 class CountriesControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    @country = countries(:one)
-  end
 
   test "should get country count" do
-      get :index
+      get "/api/v1/countries"
       assert_response :success
     end
 end
