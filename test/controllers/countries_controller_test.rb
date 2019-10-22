@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class CountriesControllerTest < ActionController::TestCase
-  def setup
-    @controller = CountriesController.new
+class CountriesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @country = countries(:one)
   end
 
   test "should get country count" do
