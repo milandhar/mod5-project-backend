@@ -46,4 +46,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       post "/api/v1/get_user_projects", params: starred_project_params.to_json, headers: { "Content-Type": "application/json" }
       assert_response(200, message = "failed to get all projects")
     end
+
+
+  test "should verify that a project is starred" do
+      user = User.create(user_params[:user])
+      user.projects << project
+      post "/api/v1/check_star", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
+      # message = JSON.parse(@response.message)
+      status_hash = JSON.parse(@response.body)
+      assert_equal 'Project is starred.', status_hash["status"]
+  end
+    #test login using auth_controller
 end
