@@ -48,17 +48,28 @@ class Api::V1::UsersController < ApplicationController
     project_id = params[:project_id].to_i
     @user = User.find(params[:user_id])
     @user_projects = @user.projects
-    @user_projects.each do |project|
-      if project[:id] == project_id
-        starred = true
+
+    if @user_projects.length > 0
+        @user_projects.each do |project|
+          if project[:id] == project_id
+            starred = true
+            break
+          end
+        end
+      else
+      UserStarredProject.all.each do |star|
+        if project_id == star.project_id && @user.id == star.user_id
+          starred = true
+          break
+        end
       end
     end
 
+
+
     if starred
-      # flash[:notice] = 'Project is starred.'
       render json: {status: 'Project is starred.'}
     else
-      # flash[:notice] = 'Project is not starred.'
       render json: {status: 'Project is not starred.'}
     end
   end
