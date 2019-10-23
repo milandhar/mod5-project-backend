@@ -16,6 +16,6 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
   test "should authorize user on login" do
     user = User.create(user_params[:user])
     post "/api/v1/login", params: user_params.to_json, headers: { "Content-Type": "application/json" }
-    p @response
+    assert_equal 202, @response.status
   end
 end
