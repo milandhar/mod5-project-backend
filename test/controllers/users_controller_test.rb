@@ -50,24 +50,29 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     test "should verify that a project is starred" do
        User.delete_all
-       user = User.create(user_params[:user])
-       user.projects.push(project)
-       p project
-       p user.projects
+       user = User.new(user_params[:user])
+       user.projects << project
+       user.save
        post "/api/v1/check_star", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
        # message = JSON.parse(@response.message)
        status_hash = JSON.parse(@response.body)
        assert_equal 'Project is starred.', status_hash["status"]
    end
 
-   # test "should verify that a project is not starred" do
-   #    user = User.create(user_params[:user])
-   #    #didn't add the project to this user
-   #    post "/api/v1/check_star", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
-   #    # message = JSON.parse(@response.message)
-   #    status_hash = JSON.parse(@response.body)
-   #    assert_equal 'Project is not starred.', status_hash["status"]
-   # end
+   test "should verify that a project is not starred" do
+      user = User.create(user_params[:user])
+      #didn't add the project to this user
+      post "/api/v1/check_star", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
+      # message = JSON.parse(@response.message)
+      status_hash = JSON.parse(@response.body)
+      assert_equal 'Project is not starred.', status_hash["status"]
+   end
 
-    #test login using auth_controller
+   test "should update user" do
+      user = User.create(user_params[:user])
+      put "/api/v1/users/#{user.id}", params: {id: user.id, first_name: "Dylan"}.to_json, headers: { "Content-Type": "application/json" }
+      res = JSON.parse(@response.body)
+      assert_equal 'Dylan', res["first_name"]
+   end
+
 end
