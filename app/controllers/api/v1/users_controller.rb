@@ -55,10 +55,8 @@ class Api::V1::UsersController < ApplicationController
     end
 
     if starred
-      # flash[:notice] = 'Project is starred.'
       render json: {status: 'Project is starred.'}
     else
-      # flash[:notice] = 'Project is not starred.'
       render json: {status: 'Project is not starred.'}
     end
   end
