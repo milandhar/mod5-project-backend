@@ -29,14 +29,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create new user" do
       post "/api/v1/users", params: user_params.to_json, headers: { "Content-Type": "application/json" }
-      assert_response(201, message = "failed to create user")
+      assert_response(:success, message = "failed to create user")
     end
 
   test "should remove saved project" do
     user = User.create(user_params[:user])
     user.projects << project
     post "/api/v1/remove_project", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
-    assert_response(202, message = "failed to remove project")
+    assert_response(:success, message = "failed to remove project")
   end
 
   test "should get all user's saved projects" do
@@ -44,7 +44,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       user.projects << project
       starred_project_params = {user_id: user.id, project_id: project.id}
       post "/api/v1/get_user_projects", params: starred_project_params.to_json, headers: { "Content-Type": "application/json" }
-      assert_response(200, message = "failed to get all projects")
+      assert_response(:success, message = "failed to get all projects")
     end
 
 
@@ -54,7 +54,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
        user.projects << project
        user.save
        post "/api/v1/check_star", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
-       # message = JSON.parse(@response.message)
        status_hash = JSON.parse(@response.body)
        assert_equal 'Project is starred.', status_hash["status"]
    end
