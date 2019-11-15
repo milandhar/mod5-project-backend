@@ -14,8 +14,6 @@ class Api::V1::UserStarredProjectsController < ApplicationController
     end
   end
 
-
-
   private
 
   def user_star_params
