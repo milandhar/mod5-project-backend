@@ -56,7 +56,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
        post "/api/v1/check_star", params: {user_id: user.id, project_id: project.id}.to_json, headers: { "Content-Type": "application/json" }
        status_hash = JSON.parse(@response.body)
        assert_equal 'Project is starred.', status_hash["status"]
-   end
+     end
 
    test "should verify that a project is not starred" do
       user = User.create(user_params[:user])
