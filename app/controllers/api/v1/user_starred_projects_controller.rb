@@ -7,6 +7,8 @@ class Api::V1::UserStarredProjectsController < ApplicationController
 
   def create
     @userStar = UserStarredProject.new(user_star_params)
+    number_stars = UserStarredProject.where(user_id: @userStar.user_id).length
+    @userStar.order_number = number_stars + 1
     if @userStar.save
       render json: @userStar, status: :created
     else
