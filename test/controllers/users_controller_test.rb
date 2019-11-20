@@ -31,7 +31,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should return user's starred projects in order" do
     user = User.create(user_params[:user])
-    byebug
     UserStarredProject.create(user_id: user.id, project_id: project.id)
     UserStarredProject.create(user_id: user.id, project_id: project2.id)
     post "/api/v1/get_user_projects", params: {user_id: user.id}.to_json, headers: { "Content-Type": "application/json" }
