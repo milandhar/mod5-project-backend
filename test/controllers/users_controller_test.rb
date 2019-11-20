@@ -22,6 +22,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   project.title = "Nourish a Young Brain Protect One Ancient Culture"
   project.save
 
+  project2 = Project.new
+  project2.image_url = "https://files.globalgiving.org/pfil/34796/pict_large.jpg?m=234324234324"
+  project2.theme_str_id = "health"
+  project2.project_link = "https://www.globalgiving.org/projects/better-health"
+  project2.title = "Save Afghan Women & Children with Health Care"
+  project2.save
+
+  test "should return user's starred projects in order" do
+    user = User.create(user_params[:user])
+    UserStarredProject.create(user_id: user.id, project_id: project.id)
+    UserStarredProject.create(user_id: user.id, project_id: project2.id)
+    post "/api/v1/get_user_projects", params: {user_id: user.id}.to_json, headers: { "Content-Type": "application/json" }
+    status_hash = JSON.parse(@response.body)
+  end
+
   test "should get index" do
       get "/api/v1/users"
       assert_response :success

@@ -34,12 +34,15 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: {error: 'Could Not Remove Project' }, status: :not_acceptable
     end
-
   end
 
   def get_projects
     @user = User.find(params["user_id"])
-    user_projects = @user.projects
+    user_projects = UserStarredProject.where(user_id: @user.id)
+    user_projects.sort_by{|project| -project.order_number }
+    user_projects = user_projects.map do |project|
+      Project.find(project.project_id)
+    end
     render json: user_projects
   end
 

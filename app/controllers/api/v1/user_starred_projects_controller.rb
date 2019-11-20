@@ -6,7 +6,12 @@ class Api::V1::UserStarredProjectsController < ApplicationController
   end
 
   def create
+    p "in create"
     @userStar = UserStarredProject.new(user_star_params)
+    #add test for this
+    number_stars = UserStarredProject.where(user_id: @userStar.user_id).length
+    @userStar.order_number = number_stars + 1
+    byebug
     if @userStar.save
       render json: @userStar, status: :created
     else
