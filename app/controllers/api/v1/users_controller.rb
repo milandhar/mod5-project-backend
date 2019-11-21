@@ -1,3 +1,5 @@
+require 'json'
+
 class Api::V1::UsersController < ApplicationController
   # skip_before_action :authorized, only: [:create, :index, :update]
 
@@ -46,7 +48,6 @@ class Api::V1::UsersController < ApplicationController
     if @user_project.delete
       #Find all the projects with an order_number > @user_project.order_number and decrement them
       higher_projects.map do |project|
-        byebug
         project.order_number -= 1
         project.save
       end
