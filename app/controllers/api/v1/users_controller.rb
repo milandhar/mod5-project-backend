@@ -22,6 +22,19 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def update_star_orders
+    user_id = params[:user_id]
+    order = 1
+    project_array = params[:project_array]
+    project_array.each do |project|
+      user_star = UserStarredProject.find_by(user_id: user_id, project_id: project.id)
+      user_star.order_number = order
+      order += 1
+      user_star.save
+    end
+    render json: {message: 'Updated Order' }, status: :accepted
+  end
+
 
   def remove_project
     user_id = params[:user_id]
