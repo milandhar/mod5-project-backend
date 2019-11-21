@@ -28,12 +28,20 @@ class Api::V1::UsersController < ApplicationController
     project_id = params[:project_id]
 
     @user_project = UserStarredProject.find_by(user_id: user_id, project_id: project_id)
+    higher_projects = UserStarredProject.where("order_number > ? AND user_id = ?", 1, user_id)
 
     if @user_project.delete
+      #Find all the projects with an order_number > @user_project.order_number and decrement them
+      higher_projects.map do |project|
+        byebug
+        project.order_number -= 1
+        project.save
+      end
       render json: {message: 'Removed Project' }, status: :accepted
     else
       render json: {error: 'Could Not Remove Project' }, status: :not_acceptable
     end
+
   end
 
   def get_projects
