@@ -25,9 +25,9 @@ class Api::V1::UsersController < ApplicationController
   def update_star_orders
     user_id = params[:user_id]
     order = 1
-    project_array = params[:project_array]
-    project_array.each do |project|
-      user_star = UserStarredProject.find_by(user_id: user_id, project_id: project.id)
+    project_array = JSON.parse(params[:project_array])
+    project_array.each do |id|
+      user_star = UserStarredProject.find_by(user_id: user_id, project_id: id)
       user_star.order_number = order
       order += 1
       user_star.save

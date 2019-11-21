@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       post '/get_theme_projects', to: 'countries#get_theme_projects'
       post '/remove_project', to: 'users#remove_project'
       post '/find_donation_options', to: 'projects#find_options'
+      post '/update_star_orders', to: 'users#update_star_orders'
     end
   end
 end
