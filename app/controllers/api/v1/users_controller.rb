@@ -1,3 +1,5 @@
+require 'json'
+
 class Api::V1::UsersController < ApplicationController
   # skip_before_action :authorized, only: [:create, :index, :update]
 
@@ -22,37 +24,6 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-
-  def remove_project
-    user_id = params[:user_id]
-    project_id = params[:project_id]
-
-    @user_project = UserStarredProject.find_by(user_id: user_id, project_id: project_id)
-    higher_projects = UserStarredProject.where("order_number > ? AND user_id = ?", 1, user_id)
-
-    if @user_project.delete
-      #Find all the projects with an order_number > @user_project.order_number and decrement them
-      higher_projects.map do |project|
-        byebug
-        project.order_number -= 1
-        project.save
-      end
-      render json: {message: 'Removed Project' }, status: :accepted
-    else
-      render json: {error: 'Could Not Remove Project' }, status: :not_acceptable
-    end
-
-  end
-
-  def get_projects
-    @user = User.find(params["user_id"])
-    user_projects = UserStarredProject.where(user_id: @user.id)
-    user_projects = user_projects.sort_by{|project| -project.order_number }
-    user_projects = user_projects.map do |project|
-      Project.find(project.project_id)
-    end
-    render json: user_projects
-  end
 
   def check_star
     starred = false
