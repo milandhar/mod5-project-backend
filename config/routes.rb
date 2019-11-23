@@ -19,11 +19,11 @@ Rails.application.routes.draw do
       get '/get_projects', to: 'countries#get_projects'
       get '/delete_all', to: 'projects#delete_all'
       post '/check_star', to: 'users#check_star'
-      post '/get_user_projects', to: 'users#get_projects'
+      post '/get_user_projects', to: 'user_starred_projects#get_projects'
       post '/get_theme_projects', to: 'countries#get_theme_projects'
-      post '/remove_project', to: 'users#remove_project'
+      post '/remove_project', to: 'user_starred_projects#remove_project'
       post '/find_donation_options', to: 'projects#find_options'
-      post '/update_star_orders', to: 'users#update_star_orders'
+      post '/update_star_orders', to: 'user_starred_projects#update_star_orders'
     end
   end
 end
