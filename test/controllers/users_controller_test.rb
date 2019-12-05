@@ -55,9 +55,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get all user's saved projects" do
+      UserStarredProject.delete_all
       user = User.create(user_params[:user])
-      user.projects << project
+      # user.projects = [project]
+      # user.save
       starred_project_params = {user_id: user.id, project_id: project.id}
+      post "/api/v1/user_starred_projects", params: starred_project_params.to_json, headers: { "Content-Type": "application/json" }
       post "/api/v1/get_user_projects", params: starred_project_params.to_json, headers: { "Content-Type": "application/json" }
       assert_response(:success, message = "failed to get all projects")
     end
