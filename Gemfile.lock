@@ -115,7 +115,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     normalize_country (0.2.2)
     pg (1.1.4)
-    puma (3.12.2)
+    puma (3.12.4)
     rack (2.0.7)
     rack-cors (1.1.0)
       rack (>= 2.0.0)
